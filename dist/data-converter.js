@@ -119,7 +119,7 @@ System.register(['moment', './aggregates', './fragments'], function (_export, _c
 
         var aggregateData = function aggregateData(from, to, fragment, data) {
           var min = Number.MAX_VALUE;
-          var max = Number.MIN_VALUE;
+          var max = 0; //Number.MIN_VALUE;
 
           var aggregateFunc = aggregate(aggregateType);
           var result = [];

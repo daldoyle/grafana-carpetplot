@@ -293,7 +293,12 @@ System.register(['d3', 'lodash', 'moment', 'jquery', '../fragments', './tooltip'
           mode = _panel.color.mode;
 
       var isSpectrumMode = mode === colorModes.SPECTRUM;
-      return [isSpectrumMode && isSet(min) ? min : data.stats.min, isSpectrumMode && isSet(max) ? max : data.stats.max];
+      var data_min = data.stats.min;
+      var data_max = data.stats.max;
+      if (data_min == data_max) {
+        data_max += 0.00001;
+      }
+      return [isSpectrumMode && isSet(min) ? min : data_min, isSpectrumMode && isSet(max) ? max : data_max];
     }
 
     var colorScales = (_colorScales = {}, _defineProperty(_colorScales, colorModes.SPECTRUM, getColorScaleSpectrum), _defineProperty(_colorScales, colorModes.CUSTOM, getColorScaleCustom), _colorScales);
@@ -304,6 +309,7 @@ System.register(['d3', 'lodash', 'moment', 'jquery', '../fragments', './tooltip'
 
     function getColorScaleSpectrum(min, max) {
       var theme = themeProvider.getTheme();
+
       var colorScheme = _.find(ctrl.colorSchemes, { value: panel.color.colorScheme });
       var colorInterpolator = d3ScaleChromatic[colorScheme.value];
       var invert = colorScheme.invert === 'always' || colorScheme.invert === 'dark' && theme === 'dark';
