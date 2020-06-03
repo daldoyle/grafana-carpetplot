@@ -301,9 +301,12 @@ export default function link(scope, elem, attrs, ctrl) {
   function getMinMax() {
     const { scale: { min, max }, color: { mode } } = panel;
     const isSpectrumMode = mode === colorModes.SPECTRUM;
+    let data_min = data.stats.min;
+    let data_max = data.stats.max;    
+    if (data_min == data_max){ data_max += 0.00001; }
     return [
-      isSpectrumMode && isSet(min) ? min : data.stats.min,
-      isSpectrumMode && isSet(max) ? max : data.stats.max
+      isSpectrumMode && isSet(min) ? min : data_min,
+      isSpectrumMode && isSet(max) ? max : data_max
     ];
   }
 
@@ -318,6 +321,7 @@ export default function link(scope, elem, attrs, ctrl) {
 
   function getColorScaleSpectrum(min, max) {
     const theme = themeProvider.getTheme();
+
     const colorScheme = _.find(ctrl.colorSchemes, { value: panel.color.colorScheme });
     const colorInterpolator = d3ScaleChromatic[colorScheme.value];
     const invert = colorScheme.invert === 'always' || (colorScheme.invert === 'dark' && theme === 'dark');

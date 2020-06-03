@@ -40,7 +40,7 @@ const createConverter = (aggregateType, fragmentType) => {
 
   const aggregateData = (from, to, fragment, data) => {
     let min = Number.MAX_VALUE;
-    let max = Number.MIN_VALUE;
+    let max = 0;//Number.MIN_VALUE;
 
     const aggregateFunc = aggregate(aggregateType);
     const result = [];
